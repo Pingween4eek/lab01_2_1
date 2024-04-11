@@ -2,31 +2,38 @@
 #include <fstream>
 #include "func.h"
 
-void write(class Console* arr, int n) {
+bool flag = true;
+
+void write(const class Console* arr, int n) {
     if (n <= 0) return;
 
     std::ofstream out;
     out.open("file.txt");
     if (!out) return;
+
+    flag = false;
     out << n << std::endl;
 
     for (int i = 0; i < n; i++) out << arr[i];
 
+    flag = true;
     out.close();
 }
 
 void read(class Console** arr, int* n) {
     std::ifstream in("file.txt");
-        if (!in) return;
+    if (!in) return;
 
-        in >> *n;
-        if (*n <= 0) return;
+    flag = false;
+    in >> *n;
+    if (*n <= 0) return;
 
-        *arr = new Console[*n];
-        for (int i = 0;i < *n; i++)
-            in >> *arr[i];
+    *arr = new Console[*n];
+    for (int i = 0;i < *n; i++)
+        in >> (*arr)[i];
 
-        in.close();
+    flag = true;
+    in.close();
 }
 
 void create(class Console** arr, int* n) {
@@ -42,25 +49,36 @@ void create(class Console** arr, int* n) {
 
 void add_elem(class Console** arr, int* n) {
     if (!*arr) {
-        std::cout << "Array doesn't exist";
+        std::cout << "Array doesn't exist" << std::endl;
         return;
+    }
+
+    Console* tempArr = new Console[*n + 1];
+    for (int i = 0; i < *n; i++) {
+        tempArr[i] = (*arr)[i];
     }
 
     Console c;
     std::cin >> c;
+    tempArr[*n] = c;
 
-    *arr[*n] = c;
-    *n++;
+    delete[] * arr;
+    *arr = tempArr;
+    (*n)++;
 }
 
-void redact_elem(class Console** arr, int id, int n) {
+void redact_elem(class Console** arr, int n) {
     if (!*arr) {
-        std::cout << "Array doesn't exist";
+        std::cout << "Array doesn't exist" << std::endl;
         return;
     }
 
+    std::cout << "Enter the index of the item you want to redact: ";
+    int id;
+    std::cin >> id;
+
     if (id >= n || id < 0) {
-        std::cout << "This element doesn't exist";
+        std::cout << "This element doesn't exist" << std::endl;
         return;
     }
 
@@ -98,21 +116,25 @@ void redact_elem(class Console** arr, int id, int n) {
 
 }
 
-void delete_elem(class Console** arr, int id, int* n) {
+void delete_elem(class Console** arr, int* n) {
     if (!*arr) {
-        std::cout << "Array doen't exist";
+        std::cout << "Array doen't exist" << std::endl;
         return;
     }
 
+    std::cout << "Enter the index of the item you want to delete: ";
+    int id;
+    std::cin >> id;
+
     if (id >= *n || id < 0) {
-        std::cout << "This element doesn't exist";
+        std::cout << "This element doesn't exist" << std::endl;
         return;
     }
 
     for (int i = id; i < *n - 1; i++) {
-        *arr[i] = *arr[i + 1];
+        (*arr)[i] = (*arr)[i + 1];
     }
-    *n--;
+    (*n)--;
 }
 
 std::string to_lower(const std::string& str) {
@@ -125,7 +147,7 @@ std::string to_lower(const std::string& str) {
 
 void seek(class Console* arr, int n) {
     if (!arr) {
-        std::cout << "Array doen't exist";
+        std::cout << "Array doen't exist" << std::endl;
         return;
     }
 
@@ -143,24 +165,24 @@ void seek(class Console* arr, int n) {
         }
     }
     if (flag) std::cout << arr[id];
-    else std::cout << "There are no matches";
+    else std::cout << "There are no matches" << std::endl;
 }
 
 void print(class Console* arr, int n) {
     if (!arr) {
-        std::cout << "Array doen't exist";
+        std::cout << "Array doen't exist" << std::endl;
         return;
     }
 
     for (int i = 0; i < n; i++) std::cout << arr[i] << std::endl;
 }
 
-std::istream& operator >> (std::istream& in, Console c) {
-    std::cout << "Enter the name of the console: ";
+std::istream& operator >> (std::istream& in, Console& c) {
+    if (flag) std::cout << "Enter the name of the console: ";
     in >> c._name;
 
     while (true){
-        std::cout << "Enter the price of the console: ";
+        if (flag) std::cout << "Enter the price of the console: ";
         in >> c._price;
 
         if (c._price > 0) break;
@@ -168,7 +190,7 @@ std::istream& operator >> (std::istream& in, Console c) {
     }
     
     while (true) {
-        std::cout << "Enter the count of the console: ";
+        if (flag) std::cout << "Enter the count of the console: ";
         in >> c._count;
 
         if (c._count >= 0) break;
@@ -178,9 +200,12 @@ std::istream& operator >> (std::istream& in, Console c) {
     return in;
 }
 
-std::ostream& operator << (std::ostream& out, const Console c) {
-    out << "Name: " << c._name << std::endl;
-    out << "Price: " << c._price << std::endl;
-    out << "Count: " << c._count << std::endl;
+std::ostream& operator << (std::ostream& out, const Console& c) {
+    if (flag) std::cout << "Name: ";
+    out << c._name << std::endl;
+    if (flag) std::cout << "Price: ";
+    out << c._price << std::endl;
+    if (flag) std::cout << "Count: ";
+    out << c._count << std::endl;
     return out;
 }

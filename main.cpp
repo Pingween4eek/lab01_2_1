@@ -5,9 +5,8 @@ using namespace std;
 int main(){
     class Console* arr = NULL;
     int n = 0;
-    int stop = 0;
 
-    while (stop != 1) {
+    while (true) {
         int key;
 
         cout << "Choose action:" << endl;
@@ -39,17 +38,11 @@ int main(){
         }
 
         else if (key == 5) {
-            cout << "Enter the index of the item you want to change: ";
-            int id;
-            cin >> id;
-            redact_elem(&arr, id, n);
+            redact_elem(&arr, n);
         }
 
         else if (key == 6) {
-            cout << "Enter the index of the item you want to delete: ";
-            int id;
-            cin >> id;
-            delete_elem(&arr, id, &n);
+            delete_elem(&arr, &n);
         }
 
         else if (key == 7) {
