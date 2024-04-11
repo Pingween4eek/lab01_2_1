@@ -92,6 +92,7 @@ void redact_elem(class Console** arr, int n) {
         std::cin >> a;
         if (a == 1) {
             std::string name;
+            std::cout << "Enter name: ";
             std::cin >> name;
             arr[id]->redact_name(name);
             break;
@@ -99,14 +100,28 @@ void redact_elem(class Console** arr, int n) {
 
         else if (a == 2) {
             int price;
-            std::cin >> price;
+
+            while (true) {
+                std::cout << "Enter price: ";
+                std::cin >> price;
+                if (price > 0) break;
+                else std::cout << "Incorrect price!" << std::endl;
+            }
+            
             arr[id]->redact_price(price);
             break;
         }
 
         else if (a == 3) {
             int count;
-            std::cin >> count;
+
+            while (true) {
+                std::cout << "Enter name: ";
+                std::cin >> count;
+                if (count >= 0) break;
+                else std::cout << "Incorrect count!" << std::endl;
+            }
+            
             arr[id]->redact_count(count);
             break;
         }
