@@ -25,7 +25,7 @@ void create(class Console** arr, int* n);
 
 void add_elem(class Console** arr, int* n);
 void delete_elem(class Console** arr, int* n);
-void redact_elem(class Console** arr, int n);
+void redact_elem(class Console* arr, int n);
 
 std::string to_lower(const std::string& str);
 

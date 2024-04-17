@@ -38,7 +38,7 @@ int main(){
         }
 
         else if (key == 5) {
-            redact_elem(&arr, n);
+            redact_elem(arr, n);
         }
 
         else if (key == 6) {

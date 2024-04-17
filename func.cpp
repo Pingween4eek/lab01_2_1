@@ -67,8 +67,8 @@ void add_elem(class Console** arr, int* n) {
     (*n)++;
 }
 
-void redact_elem(class Console** arr, int n) {
-    if (!*arr) {
+void redact_elem(class Console* arr, int n) {
+    if (!arr) {
         std::cout << "Array doesn't exist" << std::endl;
         return;
     }
@@ -94,7 +94,7 @@ void redact_elem(class Console** arr, int n) {
             std::string name;
             std::cout << "Enter name: ";
             std::cin >> name;
-            arr[id]->redact_name(name);
+            arr[id].redact_name(name);
             break;
         }
 
@@ -108,7 +108,7 @@ void redact_elem(class Console** arr, int n) {
                 else std::cout << "Incorrect price!" << std::endl;
             }
             
-            arr[id]->redact_price(price);
+            arr[id].redact_price(price);
             break;
         }
 
@@ -122,7 +122,7 @@ void redact_elem(class Console** arr, int n) {
                 else std::cout << "Incorrect count!" << std::endl;
             }
             
-            arr[id]->redact_count(count);
+            arr[id].redact_count(count);
             break;
         }
 
